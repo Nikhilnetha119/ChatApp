@@ -15,6 +15,7 @@ const db = mysql.createConnection({
     database: 'chatapp'
 });
 
+
 // Signup endpoint
 app.post('/signup', async (req, res) => {
     const { username, email, phone_number, password } = req.body;
