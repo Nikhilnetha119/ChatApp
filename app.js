@@ -19,7 +19,14 @@ const db = mysql.createConnection({
 // Signup endpoint
 app.post('/signup', async (req, res) => {
     const { username, email, phone_number, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Ensure all fields are provided
+    if (!username || !email || !phone_number || !password) {
+        return res.status(400).send('All fields are required');
+    }
+
+    // Hash the password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const user = { username, email, phone_number, password: hashedPassword };
     const sql = 'INSERT INTO users SET ?';
